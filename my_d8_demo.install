@@ -1,0 +1,26 @@
+<?php
+
+function my_d8_demo_schema() {
+  $schema['my_d8_demo_table'] = array(
+    'description' => 'D8 Demo Table',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Primary ID',
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'first_name' => array(
+        'description' => 'First Name',
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'last_name' => array(
+        'description' => 'Last Name',
+        'type' => 'text',
+        'not null' => TRUE,
+      ),      
+    ),
+    'primary key' => array('id'),
+  );
+  return $schema;
+}

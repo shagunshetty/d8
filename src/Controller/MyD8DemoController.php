@@ -4,8 +4,15 @@ namespace Drupal\my_d8_demo\Controller;
 
 use Drupal\node\NodeInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountProxy;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class MyD8DemoController {
+class MyD8DemoController implements ContainerInjectionInterface {
+	private $account;
+	public function __construct(AccountProxy $account) {
+		$this->account = $account;
+	}
 	public function static_content() {
 		return array (
 				'#type' => 'markup',
@@ -27,12 +34,17 @@ class MyD8DemoController {
 		];
 	}
 	public function nodeCreatorAccess(NodeInterface $node) {
-		$account = \Drupal::service ( 'current_user' );
-
-		if ($node->getOwnerId () === $account->id ()) {
+		kint ( $node->getOwnerId () );
+		kint ( $this->account->id () );
+		// exit ();
+		// $account = \Drupal::service ( 'current_user' );
+		if ($node->getOwnerId () === $this->account->id ()) {
 			return AccessResult::allowed ();
 		} else {
 			return AccessResult::forbidden ();
 		}
+	}
+	public static function create(ContainerInterface $container) {
+		return new static ( $container->get ( 'current_user' ) );
 	}
 }

@@ -4,3 +4,6 @@ services:
     arguments: ['@current_user']
     tags:
       - {"name": "access_check", applies_to: '_node_creator_check' }
+  d8_demo_db_wrapper:
+    class: Drupal\my_d8_demo\DbWrapper
+    arguments: ['@database']
